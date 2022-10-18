@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """tests for crowsnest.py"""
 
-import os
+import os 
+from crowsnest import produce_ahoy
 from subprocess import getstatusoutput, getoutput
 
 prg = './crowsnest.py'
@@ -11,7 +12,14 @@ consonant_words = [
     'regatta', 'submarine', 'tanker', 'vessel', 'whale', 'xebec', 'yatch',
     'zebrafish'
 ]
+consonant_words_upper = [
+    'BRIGANTINE', 'CLIPPER', 'DREADNOUGHT', 'FRIGATE', 'GALLEON', 'HADDOCK',
+    'JUNK', 'KETCH', 'LONGBOAT', 'MULLET', 'NARWHAL', 'PORPOISE', 'QUAY',
+    'REGATTA', 'SUBMARINE', 'TANKER', 'VESSEL', 'WHALE', 'XEBEC', 'YATCH',
+    'ZEBRAFISH'
+]
 vowel_words = ['aviso', 'eel', 'iceberg', 'octopus', 'upbound']
+vowel_words_upper = ['AVISO', 'EEL', 'ICEBERG', 'OCTOPUS', 'UPBOUND']
 template = 'Ahoy, Captain, {} {} off the larboard bow!'
 
 
@@ -66,3 +74,39 @@ def test_vowel_upper():
     for word in vowel_words:
         out = getoutput(f'{prg} {word.upper()}')
         assert out.strip() == template.format('an', word.upper())
+
+
+# --------------------------------------------------
+def test02_vowel():
+    """octopus -> an Octopus"""
+
+    for word in vowel_words:
+        out = produce_ahoy(word)
+        assert out == template.format('an', word)
+
+
+# --------------------------------------------------
+def test02_vowel_upper():
+    """octopus -> an Octopus"""
+
+    for word in vowel_words_upper:
+        out = produce_ahoy(word)
+        assert out == template.format('an', word)
+
+
+# --------------------------------------------------
+def test02_consonant():
+    """octopus -> an Octopus"""
+
+    for word in consonant_words:
+        out = produce_ahoy(word)
+        assert out == template.format('a', word)
+
+
+# --------------------------------------------------
+def test02_consonant_upper():
+    """octopus -> an Octopus"""
+
+    for word in consonant_words_upper:
+        out = produce_ahoy(word)
+        assert out == template.format('a', word)
