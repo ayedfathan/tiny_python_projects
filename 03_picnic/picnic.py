@@ -38,7 +38,6 @@ def get_args():
                         type=str
                         )
 
-
     return parser.parse_args()
 
 
@@ -90,6 +89,7 @@ def produce_msg_delimiter(items, sorted, delimiter):
         items.sort()
     
     return f"You are bringing {delimiter.join(items)}."
+
 
 # --------------------------------------------------
 def main():
